@@ -41,6 +41,30 @@ func main() {
 	//pointer
 	//address &p: 0xc42000c030  value p: 0xc4200180e8
 	//point-to *pointer: 20  &point-to &*pointer: 0xc4200180e8
+
+	//
+	// type *int
+	// represents: nil
+	// storage nil
+	var p *int
+
+	fmt.Println("")
+	fmt.Println("p lives at", &p)
+	fmt.Println("p has the value", p)
+	//panic: runtime error: invalid memory address or nil pointer dereference
+	//fmt.Println("p point-to", *p)
+
+	// to avoid error
+	// compare to nil
+	if p == nil {
+		fmt.Println("p point-to nil")
+	} else {
+		fmt.Println("p point-to", *p)
+	}
+	//p lives at 0xc42000c038
+	//p has the value <nil>
+	//p point-to nil
+
 }
 
 //value
