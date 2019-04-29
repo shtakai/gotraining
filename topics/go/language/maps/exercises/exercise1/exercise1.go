@@ -10,7 +10,18 @@ import "fmt"
 func main() {
 
 	// Declare and make a map of integer type values.
-	departments := make(map[string]int)
+	//departments := make(map[string]int)
+	var departments map[string]int //=> zero value / nil pointer
+
+	//fmt.Println(len(departments), departments["x"])}
+	//# command-line-arguments
+	//./exercise1.go:17:2: syntax error: non-declaration statement outside function body
+
+	if departments == nil {
+		fmt.Println("create because of nil")
+		departments = make(map[string]int)
+	}
+	fmt.Println(len(departments), departments["x"])
 
 	// Initialize some data into the map.
 	departments["IT"] = 20
@@ -24,3 +35,11 @@ func main() {
 		fmt.Printf("Dept: %s People: %d\n", key, value)
 	}
 }
+
+//create because of nil
+//0 0
+//Dept: IT People: 20
+//Dept: Marketing People: 15
+//Dept: Executives People: 5
+//Dept: Sales People: 50
+//Dept: Security People: 8e: 15

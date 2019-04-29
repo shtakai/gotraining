@@ -24,5 +24,8 @@ func main() {
 // double finds the score for a specific player and
 // multiplies it by 2.
 func double(scores map[string]int, player string) {
+	//             NOT *
+	// Map is already reference type
+	// (slice also)
 	scores[player] = scores[player] * 2
 }

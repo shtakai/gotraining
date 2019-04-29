@@ -20,10 +20,14 @@ func main() {
 		"Roy":     {"Rob", "Roy"},
 		"Ford":    {"Henry", "Ford"},
 		"Mouse":   {"Mickey", "Mouse"},
-		"Jackson": {"Michael", "Jackson"},
+		"Jackson": {"Michael", "Jackson"}, // ',' mandatory
 	}
+	//"Roy":     user{"Rob", "Roy"},
+	// key        val
 
 	// Iterate over the map printing each key and value.
+	// UNORDERED
+	// $watch -n1 go run  example4.go
 	for key, value := range users {
 		fmt.Println(key, value)
 	}
@@ -33,6 +37,15 @@ func main() {
 	// Iterate over the map printing just the keys.
 	// Notice the results are different.
 	for key := range users {
-		fmt.Println(key)
+		fmt.Println(key, users[key])
 	}
 }
+//Mouse {Mickey Mouse}
+//Jackson {Michael Jackson}
+//Roy {Rob Roy}
+//Ford {Henry Ford}
+//
+//Roy {Rob Roy}
+//Ford {Henry Ford}
+//Mouse {Mickey Mouse}
+//Jackson {Michael Jackson}
