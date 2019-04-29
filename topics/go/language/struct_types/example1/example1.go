@@ -73,3 +73,5 @@ func main() {
 	fmt.Println("Counter", e2.counter)
 	fmt.Println("Pi", e2.pi)
 }
+// どうやってバイナリからpaddingを外すのか？
+// コンパイラで
