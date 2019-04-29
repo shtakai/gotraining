@@ -7,10 +7,16 @@ package main
 
 import "fmt"
 
+// APPEND
 func main() {
+	//    append
+	// d nil ->    *---->[R1]    R1  * --> [R1][R2]
+	// L  0        1             1   2
+	// C  0        1             1   2
 
 	// Declare a nil slice of strings.
-	var data []string
+	var data []string // zero value slice
+	//data := make([]string, 0, 100) メモリ喰う
 
 	// Capture the capacity of the slice.
 	lastCap := cap(data)
@@ -21,6 +27,7 @@ func main() {
 		// Use the built-in function append to add to the slice.
 		value := fmt.Sprintf("Rec: %d", record)
 		data = append(data, value)
+		//            slice  val ==> returns slice
 
 		// When the capacity of the slice changes, display the changes.
 		if lastCap != cap(data) {

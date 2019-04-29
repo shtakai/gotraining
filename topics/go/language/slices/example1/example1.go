@@ -3,14 +3,32 @@
 
 // Sample program to show how the capacity of the slice
 // is not available for use.
+// slice != array
 package main
 
 import "fmt"
 
 func main() {
+	// type []string
+	// represent: ordered list of strings
+	// stodage 3 words
+	// pointer *
+	//  length 5
+	// capacity 5
+
+	// *
+	// 5
+	// 5
+
+	// *
+	// 5
+	// 5     x x x x    x
+	//       |<length>  |
+	//       |<capacity>|
 
 	// Create a slice with a length of 5 elements.
 	fruits := make([]string, 5)
+	//  make(type[], length)   length: enough size
 	fruits[0] = "Apple"
 	fruits[1] = "Orange"
 	fruits[2] = "Banana"
