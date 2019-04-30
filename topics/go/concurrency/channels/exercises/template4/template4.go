@@ -26,7 +26,7 @@ func main() {
 	results := make(chan int)
 
 	// Create a channel "shutdown" to tell goroutines when to terminate.
-	shutdown := make(chan int)
+	shutdown := make(chan struct{}) // don't care type.  struct{} => empty/0 bytes
 
 	// Define the size of the worker pool. Use runtime.NumCPU to size the pool based on number of processors.
 	goroutines := runtime.NumCPU()
@@ -37,11 +37,11 @@ func main() {
 
 	// Create a fixed size pool of goroutines to generate random numbers.
 	for i :=0; i < goroutines; i++{
-		go func(){
-			//defer wg.Done()
+		go func(id int){ // use id for recognize as worker id
+			//defer wg.Done() <= no need here.  Done calls when shutdown
 
 			// Start an infinite loop.
-			for true{
+			for {
 
 				// Generate a random number up to 1000.
 				n := rand.Intn(1000)
@@ -49,20 +49,19 @@ func main() {
 				// Use a select to either send the number or receive the shutdown signal.
 				select
 				{
-					// In one case send the random number.
-					case results <- n:
-						fmt.Println("number")
-						results <- n
-
-					// In another case receive from the shutdown channel.
-					case <- shutdown:
-						fmt.Println("received shutdown")
-						shutdown <- n
+				// In one case send the random number.
+				case results <- n: // when send n to results
+					fmt.Println(id, " send number:", n)
 
 
+				// In another case receive from the shutdown channel.
+				case <- shutdown: // when receive shutdown  | close(shutdown)
+					fmt.Println(id, " received shutdown")
+					wg.Done() // finish this routine. guaranteed because of shutdown
+					return // leave
 				}
 			}
-		}()
+		}(i) // argument is i => id
 	}
 
 	// Create a slice to hold the random numbers.
@@ -81,7 +80,7 @@ func main() {
 		randNumbers = append(randNumbers, ch)
 
 		// break the loop once we have 100 results.
-		if len(results) == 100 {
+		if len(randNumbers) == 100 {
             break
 		}
 	}
@@ -96,3 +95,28 @@ func main() {
 	fmt.Println("finished")
 	fmt.Println("slice:", randNumbers)
 }
+//7  send number: 483
+//5  send number: 129
+//5  send number: 211
+// :
+// :
+// :
+//3  send number: 127
+//3  send number: 735
+//1  send number: 194
+//7  send number: 175
+//7  received shutdown
+//2  send number: 14
+//5  send number: 646
+//5  received shutdown
+//6  send number: 627
+//6  received shutdown
+//3  received shutdown
+//2  received shutdown
+//4  send number: 324
+//4  received shutdown
+//1  received shutdown
+//0  send number: 719
+//0  received shutdown
+//finished
+//slice: [483 129 195 211 431 185 629 823 787 393 619 571 39 231 881 61 859 773 515 389 629 713 425 677 669 203 27 83 911 927 751 639 997 375 227 525 777 763 271 69 815 361 255 249 393 845 831 763 707 149 989 67 245 199 579 503 253 283 179 987 719 951 411 441 45 785 79 925 29 675 705 877 645 981 343 333 587 589 701 835 49 515 987 883 105 379 161 633 501 719 125 969 349 283 529 159 627 175 127 735]
