@@ -14,7 +14,8 @@ import (
 // numbers maintains a set of random numbers.
 var numbers []int // shared
 
-var mutex sync.Mutex
+var mutex sync.Mutex // add mutex for data race
+var rwMutex sync.RWMutex
 
 // init is called prior to main.
 func init() {
@@ -36,7 +37,20 @@ func main() {
 			random(10)
 			wg.Done()
 		}()
+		// 別解
+		//go func() {
+		//	newslice := random(10)
+		//	rwMutex.Lock()
+		//	{
+		//		numbers = append(numbers, newslice...) // accessing shared memory
+		//
+		//	}
+		//	rwMutex.Unlock()
+		//	wg.Done()
+		//}()
+
 	}
+
 
 	// Wait for all the goroutines to finish.
 	wg.Wait()
@@ -53,14 +67,26 @@ func random(amount int) {
 	// Generate as many random numbers as specified.
 	for i := 0; i < amount; i++ {
 
+		n := rand.Intn(100)
+		// here is CRITICAL SECTION
 		mutex.Lock()
 		{
-			n := rand.Intn(100)
-			numbers = append(numbers, n)
+			numbers = append(numbers, n) // access shared memory
 		}
 		mutex.Unlock()
 	}
 }
+
+// 別解
+//func random(amount int) []int {
+//	arrInt := []int{}
+//	// generate as many random numbers as specified.
+//	for i:=0; i< amount; i++ {
+//		n:= rand.Intn(100)
+//		arrInt = append(arrInt, n)
+//	}
+//	return arrInt
+//}
 
 //go run -race template1.go > /dev/null               1 ↵
 //==================
