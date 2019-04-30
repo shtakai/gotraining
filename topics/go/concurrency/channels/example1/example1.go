@@ -21,9 +21,9 @@ func init() {
 func main() {
 
 	//waitForResult()
-	fanOut()
+	//fanOut()
 
-	// waitForTask()
+	waitForTask()
 	// pooling()
 
 	// Advanced patterns
