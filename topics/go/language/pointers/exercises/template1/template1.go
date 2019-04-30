@@ -10,16 +10,67 @@
 package main
 
 // Add imports.
+import "fmt"
 
 func main() {
 
 	// Declare an integer variable with the value of 20.
+	value := 20
 
 	// Display the address of and value of the variable.
+	fmt.Println("value")
+	fmt.Println("address &value:", &value, " value value", value)
+	//value
+	//address: 0xc4200180e8  value: 20
 
 	// Declare a pointer variable of type int. Assign the
 	// address of the integer variable above.
 
+	// short way
+	pointer := &value
+	// long way
+	//var pointer *int
+	//pointer = &value
+
 	// Display the address of, value of and the value the pointer
 	// points to.
+	fmt.Println("")
+	fmt.Println("pointer = &value")
+	fmt.Println("address &p:", &pointer, " value p:", pointer)
+	fmt.Println(" point-to *pointer:", *pointer, " &point-to &*pointer:", &*pointer)
+	//pointer
+	//address &p: 0xc42000c030  value p: 0xc4200180e8
+	//point-to *pointer: 20  &point-to &*pointer: 0xc4200180e8
+
+	//
+	// type *int
+	// represents: nil
+	// storage nil
+	var p *int
+
+	fmt.Println("")
+	fmt.Println("p lives at", &p)
+	fmt.Println("p has the value", p)
+	//panic: runtime error: invalid memory address or nil pointer dereference
+	//fmt.Println("p point-to", *p)
+
+	// to avoid error
+	// compare to nil
+	if p == nil {
+		fmt.Println("p point-to nil")
+	} else {
+		fmt.Println("p point-to", *p)
+	}
+	//p lives at 0xc42000c038
+	//p has the value <nil>
+	//p point-to nil
+
 }
+
+//value
+//address: 0xc4200180e8  value: 20
+//
+//pointer
+//address &p: 0xc42000c030  value p: 0xc4200180e8
+//point-to *pointer: 20  &point-to &*pointer: 0xc4200180e8
+

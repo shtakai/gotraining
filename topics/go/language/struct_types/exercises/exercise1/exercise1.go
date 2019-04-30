@@ -25,6 +25,7 @@ func main() {
 		age:   45,
 	}
 
+	bill.age++ // 45 ++
 	// Display the field values.
 	fmt.Println("Name", bill.name)
 	fmt.Println("Email", bill.email)
@@ -40,6 +41,8 @@ func main() {
 		email: "ed@ardanlabs.com",
 		age:   46,
 	}
+
+	ed.age--
 
 	// Display the field values.
 	fmt.Println("Name", ed.name)

@@ -9,6 +9,7 @@ import "fmt"
 
 // user represents a user in the system.
 type user struct {
+	// zero value
 	name   string
 	email  string
 	logins int
@@ -26,7 +27,7 @@ func main() {
 	// names with a struct literal.
 
 	// Pass the "address of" the bill value.
-	display(&bill)
+	display(&bill)//address
 
 	// Pass the "address of" the logins field from within the bill value.
 	increment(&bill.logins)
@@ -44,7 +45,19 @@ func increment(logins *int) {
 
 // display declares u as user pointer variable whose value is always an address
 // and points to values of type user.
-func display(u *user) {
-	fmt.Printf("%p\t%+v\n", u, *u)
+func display(u *user) { // *user => pointer of user
+	fmt.Printf("%p\t%+v\n", u, *u) // *u dereference
 	fmt.Printf("Name: %q Email: %q Logins: %d\n\n", u.name, u.email, u.logins)
+	// v also
+	fmt.Printf("Name: %q Email: %q Logins: %d\n\n", (*u).name, (*u).email, (*u).logins)
 }
+//
+//0xc420090180    {name:Bill email:bill@ardanlabs.com logins:0}
+//Name: "Bill" Email: "bill@ardanlabs.com" Logins: 0
+//
+//&logins[0xc4200a0020] logins[0xc4200901a0] *logins[1]
+//
+//0xc420090180    {name:Bill email:bill@ardanlabs.com logins:1}
+//Name: "Bill" Email: "bill@ardanlabs.com" Logins: 1
+//
+

@@ -13,10 +13,24 @@ type duration int
 func (d *duration) notify() {
 	fmt.Println("Sending Notification in", *d)
 }
+// NG
+//./example3.go:18:14: cannot call pointer method on duration(42)
+//./example3.go:18:14: cannot take the address of duration(42)
+
+
+//func (d duration) notify() {
+//	fmt.Println("Sending Notification in", d)
+//}
+// OK
+//Sending Notification in 42
 
 func main() {
-	duration(42).notify()
+	duration(42).notify() // 42
 
 	// ./example3.go:18: cannot call pointer method on duration(42)
 	// ./example3.go:18: cannot take the address of duration(42)
 }
+
+//# command-line-arguments
+//./example3.go:18:14: cannot call pointer method on duration(42)
+//./example3.go:18:14: cannot take the address of duration(42)

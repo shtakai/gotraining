@@ -8,6 +8,18 @@ package main
 import "fmt"
 
 func main() {
+	// type []string
+	// represent: ordered list of strings
+	// stodage 3 words
+	// pointer *
+	//  length 5
+	// capacity 8
+
+	// *
+	// 5
+	// 8     x x x x x  _ _ _
+	//       |<length>|
+	//       |<capacity----->|
 
 	// Create a slice with a length of 5 elements and a capacity of 8.
 	fruits := make([]string, 5, 8)
@@ -24,8 +36,9 @@ func main() {
 func inspectSlice(slice []string) {
 	fmt.Printf("Length[%d] Capacity[%d]\n", len(slice), cap(slice))
 	for i, s := range slice {
-		fmt.Printf("[%d] %p %s\n",
+		fmt.Printf("[%d] s lives at %p /   s[i] lives at %p %s\n",
 			i,
+			&s,
 			&slice[i],
 			s)
 	}

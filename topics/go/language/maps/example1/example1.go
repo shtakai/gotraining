@@ -17,8 +17,10 @@ func main() {
 
 	// Declare and make a map that stores values
 	// of type user with a key of type string.
-	users := make(map[string]user)
+	users := make(map[string]user) // make also creates map
+	//            map[keyType]valueType
 
+	// grow automatically
 	// Add key/value pairs to the map.
 	users["Roy"] = user{"Rob", "Roy"}
 	users["Ford"] = user{"Henry", "Ford"}
@@ -36,8 +38,10 @@ func main() {
 	// Read the Mouse key again.
 	fmt.Printf("%+v\n", users["Mouse"])
 
+	fmt.Printf("roy %+v\n", users["Roy"])
 	// Delete the value at a specific key.
 	delete(users, "Roy")
+	fmt.Printf("roy %+v\n", users["Roy"])
 
 	// Check the length of the map. There are only 3 elements.
 	fmt.Println(len(users))
@@ -47,3 +51,10 @@ func main() {
 
 	fmt.Println("Goodbye.")
 }
+//
+//{name:Mickey surname:Mouse}
+//{name:Jerry surname:Mouse}
+//roy {name:Rob surname:Roy}
+//roy {name: surname:}
+//3
+//Goodbye.

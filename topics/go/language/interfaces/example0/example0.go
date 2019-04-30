@@ -43,14 +43,17 @@ func main() {
 
 // retrieveFile can read from a file and process the data.
 func retrieveFile(f file) error {
-	data := make([]byte, 100)
+	data := make([]byte, 100) //create a slice
 
-	len, err := f.read(data)
+	// f.read
+	//    file.read(data)
+	//    pipe.read(data)
+	len, err := f.read(data) // passing slice
 	if err != nil {
 		return err
 	}
 
-	fmt.Println(string(data[:len]))
+	fmt.Println(string(data[:len])) // re-slice
 	return nil
 }
 
@@ -66,3 +69,5 @@ func retrievePipe(p pipe) error {
 	fmt.Println(string(data[:len]))
 	return nil
 }
+
+// => ex1

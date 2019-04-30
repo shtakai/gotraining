@@ -20,10 +20,16 @@ func main() {
 	}
 
 	// Trying to take the address of a map element fails.
+	// X
 	anna := &players["anna"]
 	anna.score++
-
 	// ./example4.go:23:10: cannot take the address of players["anna"]
+
+	// X
+	&players["anna"].score++
+	//cannot take the address of 'players["anna"].score'
+	// Invalid operation: &players["anna"].score++ (non-numeric type *int
+
 
 	// Instead take the element, modify it, and put it back.
 	player := players["anna"]

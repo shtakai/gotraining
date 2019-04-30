@@ -9,21 +9,47 @@
 // converting the literal value of Pi (3.14).
 package main
 
+import "fmt"
+
 // Add imports
 
 // main is the entry point for the application.
 func main() {
 
 	// Declare variables that are set to their zero value.
+	var a int
+	var b bool
+	var c string
 
 	// Display the value of those variables.
+	fmt.Println("zero value")
+	fmt.Printf("a int %v\n", a)
+	fmt.Printf("b bool %v\n", b)
+	fmt.Printf("c string %v\n", c)
+
+	// := is used for new var
+	// 1) var name string
+	//    name = "Jacob"
+	// 2) name := "Jacob"
 
 	// Declare variables and initialize.
 	// Using the short variable declaration operator.
+	aa := 1020
+	bb := false
+	cc := "sashimiudon"
 
 	// Display the value of those variables.
+	fmt.Println("init")
+	fmt.Printf("aa int %v\n", aa)
+	fmt.Printf("bb bool %v\n", bb)
+	fmt.Printf("cc string %v\n", cc)
 
 	// Perform a type conversion.
+	aaa := int64(aa)
 
 	// Display the value of that variable.
+	fmt.Println("conv")
+	fmt.Printf("aaa int64 %v\n", aaa)
 }
+
+// excercises

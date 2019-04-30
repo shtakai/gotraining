@@ -32,11 +32,30 @@ func main() {
 		keys = append(keys, key)
 	}
 
+	fmt.Println("before sort(just grabbed)")
+	for _, key := range keys {
+		fmt.Println(key, users[key])
+	}
+
 	// Sort the keys alphabetically.
-	sort.Strings(keys)
+	sort.Strings(keys) //Package sort
+	fmt.Println("after sort")
 
 	// Walk through the keys and pull each value from the map.
 	for _, key := range keys {
 		fmt.Println(key, users[key])
 	}
+	// 並びはcostがかかる iteration sort....
 }
+
+//before sort(just grabbed)
+//Roy {Rob Roy}
+//Ford {Henry Ford}
+//Mouse {Mickey Mouse}
+//Jackson {Michael Jackson}
+
+//after sort
+//Ford {Henry Ford}
+//Jackson {Michael Jackson}
+//Mouse {Mickey Mouse}
+//Roy {Rob Roy}

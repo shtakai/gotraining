@@ -9,12 +9,18 @@
 // in a slice. Print the slice values then terminate the program.
 package main
 
+import (
+	"math/rand"
+	"time"
+)
+
 // Add imports.
 
 // Declare constant for number of goroutines.
 
 func init() {
 	// Seed the random number generator.
+	rand.Seed(time.now,)
 }
 
 func main() {

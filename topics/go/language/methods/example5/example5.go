@@ -17,6 +17,7 @@ import (
 // type that is a slice of bytes. Since we use value semantics for reference
 // types, the implementation is using value semantics for both.
 
+// it is implemented with a reference type: use Value
 type IP []byte
 type IPMask []byte
 
@@ -74,6 +75,7 @@ func Now() Time {
 // Add is using a value receiver and returning a value of type Time. This
 // method is using value semantics for Time.
 
+// returns new Time
 func (t Time) Add(d Duration) Time {
 	t.sec += int64(d / 1e9)
 	nsec := int32(t.nsec) + int32(d%1e9)
@@ -109,7 +111,10 @@ func (t *Time) UnmarshalText(data []byte) error {
 // returns a pointer of type File. This means we should be using pointer
 // semantics and share File values.
 
+// file is unique. -> pointer *File
+// (factory method)
 func Open(name string) (file *File, err error) {
+}
 	return OpenFile(name, O_RDONLY, 0)
 }
 

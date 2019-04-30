@@ -19,7 +19,9 @@ type user struct {
 }
 
 // notify implements the notifier interface with a pointer receiver.
-func (u *user) notify() {
+//                                                 ~~~~~~~~~~~~~~~~
+func (u *user) notify() { //pointer receiver
+	u.name += "X"
 	fmt.Printf("Sending User Email To %s<%s>\n",
 		u.name,
 		u.email)
@@ -33,7 +35,7 @@ func main() {
 	// Values of type user do not implement the interface because pointer
 	// receivers don't belong to the method set of a value.
 
-	sendNotification(u)
+	sendNotification(&u) // pass address of u (&u)
 
 	// ./example1.go:36: cannot use u (type user) as type notifier in argument to sendNotification:
 	//   user does not implement notifier (notify method has pointer receiver)
@@ -44,3 +46,13 @@ func main() {
 func sendNotification(n notifier) {
 	n.notify()
 }
+
+
+//# command-line-arguments
+//./example2.go:37:18: cannot use u (type user) as type notifier in argument to sendNotification:
+//        user does not implement notifier (notify method has pointer receiver)
+
+//   modification
+
+// u => &u
+//Sending User Email To BillX<bill@email.com>
