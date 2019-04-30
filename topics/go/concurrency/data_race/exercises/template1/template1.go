@@ -12,10 +12,11 @@ import (
 )
 
 // numbers maintains a set of random numbers.
-var numbers []int // shared
-
-var mutex sync.Mutex // add mutex for data race
-var rwMutex sync.RWMutex
+var(
+	numbers []int // shared
+	mutex sync.Mutex // add mutex for data race
+	rwMutex sync.RWMutex
+)
 
 // init is called prior to main.
 func init() {
@@ -65,13 +66,17 @@ func main() {
 func random(amount int) {
 
 	// Generate as many random numbers as specified.
+	//ここでブロックを入れるとパフォーマンスが悪くなる
+	// mutex.Lock() X
+	// defer.Unlock() X
 	for i := 0; i < amount; i++ {
 
-		n := rand.Intn(100)
+		n := rand.Intn(100) // ここをブロックに入れるとパフォーマンスが悪くなる
 		// here is CRITICAL SECTION
 		mutex.Lock()
 		{
-			numbers = append(numbers, n) // access shared memory
+			// n := rand.Intn(100) XX パフォーマンスが悪くなる
+			numbers = append(numbers, n) // access shared memory R/W
 		}
 		mutex.Unlock()
 	}
