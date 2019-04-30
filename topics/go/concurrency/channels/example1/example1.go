@@ -20,8 +20,8 @@ func init() {
 
 func main() {
 
-	waitForResult()
-	// fanOut()
+	//waitForResult()
+	fanOut()
 
 	// waitForTask()
 	// pooling()
@@ -39,20 +39,27 @@ func main() {
 // of time you wait on the employee is unknown because you need a
 // guarantee that the result sent by the employee is received by you.
 func waitForResult() {
-	ch := make(chan string)
+	ch := make(chan string) // built in function
+	// make(chan type)
+	//      ~~~~
+	//            ^
+	//          any type
 
-	go func() {
+	go func() { // goroutine want to talk
 		time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
-		ch <- "paper"
+		ch <- "paper" // goroutine send message to ch
 		fmt.Println("employee : sent signal")
 	}()
 
-	p := <-ch
+	p := <-ch // p receive data from ch
 	fmt.Println("manager : recv'd signal :", p)
 
 	time.Sleep(time.Second)
 	fmt.Println("-------------------------------------------------------------")
 }
+//manager : recv'd signal : paper
+//employee : sent signal
+//-------------------------------------------------------------
 
 // fanOut: You are a manager and you hire one new employee for the exact amount
 // of work you have to get done. Each new employee knows immediately what they
@@ -62,27 +69,72 @@ func waitForResult() {
 // are received by you. No given employee needs an immediate guarantee that you
 // received their result.
 func fanOut() {
-	emps := 2000
-	ch := make(chan string, emps)
+	students := 100
+	//ch := make(chan string)// unbuffered channel => throuput problem
+	ch := make(chan string, students) // buffered channel
+	// buffered channel
+	// improve performance
+	// remains data in channel
 
-	for e := 0; e < emps; e++ {
+	// students send quiz to teacher.
+	for e := 0; e < students; e++ {
 		go func(emp int) {
-			time.Sleep(time.Duration(rand.Intn(200)) * time.Millisecond)
-			ch <- "paper"
-			fmt.Println("employee : sent signal :", emp)
+			fmt.Print(".")
+			time.Sleep(time.Duration(rand.Intn(200)) * time.Millisecond) //stop
+			ch <- "quiz" // send quiz
+			// if do you want to send bulk => use loop + send one
+			fmt.Println("student : sent signal :", emp)
 		}(e)
 	}
 
-	for emps > 0 {
-		p := <-ch
-		emps--
+	// teacher receive quiz from student.
+	for students > 0 { //until student is 0
+	    // do with teacher's speed.
+		p := <-ch // receive quiz from student
+		students--
 		fmt.Println(p)
-		fmt.Println("manager : recv'd signal :", emps)
+		fmt.Println("teacher : recv'd signal :", students)
 	}
 
 	time.Sleep(time.Second)
 	fmt.Println("-------------------------------------------------------------")
 }
+// blocked:unbuffered channel
+//  => throughput problem
+//  SIZE; none. (like 0)
+// like: TCP =>guaranteed
+
+// buffered channel
+//  => block when capacity is full
+//  => if not non block
+// you don't know other goroutine
+//  SIZE: 1.....
+// like: udp =>best effort
+//  サーバーが落ちるとchannel内のデータはlost
+
+// tcp/udp joke
+//https://www.reddit.com/r/ProgrammerHumor/comments/6p8hmy/hello_would_you_like_to_hear_a_tcp_joke/
+//https://www.reddit.com/r/ProgrammerHumor/comments/14wv9p/i_was_gonna_tell_you_guys_a_joke_about_udp/
+
+
+// which is good? => it depends.
+
+//student : sent signal : 34
+//quiz
+//teacher : recv'd signal : 99
+//student : sent signal : 74
+//quiz
+//teacher : recv'd signal : 98
+//student : sent signal : 64
+//quiz
+// :
+// :
+//quiz
+//teacher : recv'd signal : 1
+//student : sent signal : 70
+//quiz
+//teacher : recv'd signal : 0
+
 
 // waitForTask: You are a manager and you hire a new employee. Your new
 // employee doesn't know immediately what they are expected to do and waits for
