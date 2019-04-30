@@ -8,16 +8,17 @@ package main
 import (
 	"fmt"
 	"sync"
+	// atomic package使う
 	"sync/atomic"
 )
 
 // counter is a variable incremented by all goroutines.
-var counter int64
+var counter int64 // int64
 
 func main() {
 
 	// Number of goroutines to use.
-	const grs = 2
+	const grs = 2000
 
 	// wg is used to manage concurrency.
 	var wg sync.WaitGroup
@@ -27,7 +28,7 @@ func main() {
 	for i := 0; i < grs; i++ {
 		go func() {
 			for count := 0; count < 2; count++ {
-				atomic.AddInt64(&counter, 1)
+				atomic.AddInt64(&counter, 1) // typeにあわせた AddXXXX使う.
 			}
 
 			wg.Done()
@@ -40,3 +41,7 @@ func main() {
 	// Display the final value.
 	fmt.Println("Final Counter:", counter)
 }
+
+//go run --race example2.go
+//Final Counter: 4000
+// no messages
