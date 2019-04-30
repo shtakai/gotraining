@@ -8,11 +8,11 @@ import "fmt"
 
 // reader is an interface that defines the act of reading data.
 type reader interface {
-	read(b []byte) (int, error)
+	read(b []byte) (int, error) // method definition (don't care inside)
 }
 
 // file defines a system file.
-type file struct {
+type file struct { // no need `implement`
 	name string
 }
 
@@ -40,6 +40,8 @@ func main() {
 	// Create two values one of type file and one of type pipe.
 	f := file{"data.json"}
 	p := pipe{"cfg_service"}
+	// type: reader
+	// storage: 2words [data *|instructions *]
 
 	// Call the retrieve function for each concrete type.
 	retrieve(f)
@@ -47,7 +49,12 @@ func main() {
 }
 
 // retrieve can read any device and process the data.
-func retrieve(r reader) error {
+//             X retrieveFromFile (f file)
+//             X ....        Pipe (p pipe)
+// O retrieve(r reader) <---- reader ====> pipe/file
+// you look like `reader`?
+// you behave `reader`?
+func retrieve(r reader) error { // <= no need to think actual type
 	data := make([]byte, 100)
 
 	len, err := r.read(data)
@@ -58,3 +65,5 @@ func retrieve(r reader) error {
 	fmt.Println(string(data[:len]))
 	return nil
 }
+//<rss><channel><title>Going Go Programming</title></channel></rss>
+//{name: "bill", title: "developer"}

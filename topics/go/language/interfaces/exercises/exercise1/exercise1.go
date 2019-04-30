@@ -25,7 +25,7 @@ type english struct{}
 
 // speak implements the speaker interface using a
 // value receiver.
-func (english) speak() {
+func (english) speak() { // value receiver
 	fmt.Println("Hello World")
 }
 
@@ -34,7 +34,7 @@ type chinese struct{}
 
 // speak implements the speaker interface using a
 // pointer receiver.
-func (*chinese) speak() {
+func (*chinese) speak() { // pointer receiver
 	fmt.Println("你好世界")
 }
 
@@ -42,7 +42,7 @@ func main() {
 
 	// Declare a variable of the interface speaker type
 	// set to its zero value.
-	var sp speaker
+	var sp speaker // zero value
 
 	// Declare a variable of type english.
 	var e english
@@ -51,25 +51,33 @@ func main() {
 	sp = e
 
 	// Call the speak method against the speaker variable.
-	sp.speak()
+	sp.speak() // (english).speak
+	//Hello World
 
 	// Declare a variable of type chinese.
 	var c chinese
 
 	// Assign the chinese pointer to the speaker variable.
-	sp = &c
+	sp = &c // *chineseType
 
 	// Call the speak method against the speaker variable.
-	sp.speak()
+	sp.speak()  // (&chinese).speak
+	//你好世界
 
 	// Call the sayHello function with new values and pointers
 	// of english and chinese.
-	sayHello(english{})
-	sayHello(&english{})
-	sayHello(&chinese{})
+	sayHello(english{}) // english OK
+	//Hello World
+	sayHello(&english{}) // &english OK
+	//Hello World
+	sayHello(&chinese{}) // &chinese OK
+	//你好世界
 
 	// Why does this not work?
-	// sayHello(chinese{})
+	//sayHello(chinese{}) // compiler says 'this is not allowed'
+	//# command-line-arguments
+	//./exercise1.go:77:18: cannot use chinese literal (type chinese) as type speaker in argument to sayHello:
+	//        chinese does not implement speaker (speak method has pointer receiver)
 }
 
 // sayHello abstracts speaking functionality.
